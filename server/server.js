@@ -1,3 +1,12 @@
+// ----------------------------
+// BullFin-AI Express Server
+// ----------------------------
+// - Loads environment variables
+// - Connects to MongoDB via Mongoose
+// - Defines API routes for:
+//    • Health check
+//    • CSV portfolio upload
+//    • Financial metrics proxy
 import express from 'express';
 import cors from 'cors';
 import mongoose from 'mongoose';
@@ -6,6 +15,7 @@ import multer from 'multer';
 import csv from 'csv-parser';
 import fs from 'fs';
 import Portfolio from './models/Portfolio.js';
+import fetch from 'node-fetch'; 
 
 dotenv.config();
 console.log('Loaded MONGODB_URI:', process.env.MONGODB_URI);
@@ -33,6 +43,12 @@ app.get('/health', (req, res) => {
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/api/upload-portfolio', upload.single('file'), (req, res) => {
+  // Ensure a file was uploaded under the "file" field
+  if (!req.file) {
+    return res.status(400).json({
+      error: 'No file uploaded; ensure form-data key is "file".'
+    });
+  }
   const results = [];
   fs.createReadStream(req.file.path)
     .pipe(csv())
@@ -54,7 +70,32 @@ app.post('/api/upload-portfolio', upload.single('file'), (req, res) => {
     });
 });
 
-// Start server
+// ----------------------------
+// Proxy to Flask metrics service
+// ----------------------------
+app.post('/api/metrics', async (req, res) => {
+  // Expect portfolio array in request body
+  if (!req.body.portfolio) {
+    return res.status(400).json({ error: 'Missing portfolio data.' });
+  }
+  try {
+    const response = await fetch('http://127.0.0.1:5000/metrics', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ portfolio: req.body.portfolio }),
+    });
+    const data = await response.json();
+    // Attach original portfolio for frontend price lookups
+    data.portfolio = req.body.portfolio;
+    res.status(response.ok ? 200 : response.status).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ----------------------------
+// Start Express Server
+// ----------------------------
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
