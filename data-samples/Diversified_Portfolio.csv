@@ -1,0 +1,13 @@
+symbol,shares,purchasePrice,purchaseDate,sector
+AAPL,25,193.00,2024-01-22,Technology
+MSFT,15,405.00,2024-02-15,Technology
+GOOGL,30,137.00,2024-03-05,Communication Services
+NVDA,50,122.00,2024-08-15,Technology
+AMZN,20,185.00,2024-04-10,Consumer Discretionary
+JPM,15,210.00,2024-05-20,Financials
+JNJ,12,148.00,2023-11-10,Healthcare
+V,10,285.00,2024-02-28,Financials
+XOM,18,116.00,2024-03-25,Energy
+SPY,8,530.00,2024-06-01,ETF
+PG,14,151.00,2023-09-15,Consumer Staples
+BRK-B,7,408.00,2024-06-15,Financials

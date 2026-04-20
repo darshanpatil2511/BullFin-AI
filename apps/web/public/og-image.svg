@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#09090b" />
+      <stop offset="1" stop-color="#0b1a12" />
+    </linearGradient>
+    <radialGradient id="glow-a" cx="20%" cy="30%" r="55%">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#10b981" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glow-b" cx="85%" cy="75%" r="50%">
+      <stop offset="0" stop-color="#fbbf24" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="gradient-text" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6ee7b7" />
+      <stop offset="0.55" stop-color="#10b981" />
+      <stop offset="1" stop-color="#fbbf24" />
+    </linearGradient>
+    <linearGradient id="brand-bar" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34d399" />
+      <stop offset="1" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="chart" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#10b981" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)" />
+  <rect width="1200" height="630" fill="url(#glow-a)" />
+  <rect width="1200" height="630" fill="url(#glow-b)" />
+
+  <!-- Subtle grid -->
+  <g stroke="#ffffff" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 120 H1200 M0 240 H1200 M0 360 H1200 M0 480 H1200" />
+    <path d="M150 0 V630 M300 0 V630 M450 0 V630 M600 0 V630 M750 0 V630 M900 0 V630 M1050 0 V630" />
+  </g>
+
+  <!-- Logo -->
+  <g transform="translate(80, 80)">
+    <rect width="56" height="56" rx="14" fill="url(#brand-bar)" />
+    <rect x="10" y="32" width="9" height="14" rx="2" fill="#022c22" />
+    <rect x="23" y="24" width="9" height="22" rx="2" fill="#022c22" />
+    <rect x="36" y="14" width="9" height="32" rx="2" fill="#022c22" />
+    <path d="M10 27 L22 20 L31 23 L45 12" stroke="#022c22" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.6" />
+    <text x="74" y="38" font-family="Inter, system-ui, sans-serif" font-size="28" font-weight="700" fill="#f4f4f5">
+      BullFin<tspan fill="url(#gradient-text)">.AI</tspan>
+    </text>
+  </g>
+
+  <!-- Eyebrow -->
+  <g transform="translate(80, 220)">
+    <rect x="0" y="0" width="330" height="38" rx="19" fill="#111113" stroke="#27272a" />
+    <circle cx="22" cy="19" r="4" fill="#10b981" />
+    <text x="38" y="25" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" fill="#a1a1aa">
+      The intelligence layer for modern investors
+    </text>
+  </g>
+
+  <!-- Headline -->
+  <text x="80" y="340" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="600" fill="#f4f4f5" letter-spacing="-1.5">
+    Your portfolio,
+  </text>
+  <text x="80" y="420" font-family="Inter, system-ui, sans-serif" font-size="72" font-weight="600" fill="url(#gradient-text)" letter-spacing="-1.5">
+    finally understood.
+  </text>
+
+  <!-- Subtitle -->
+  <text x="80" y="480" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="400" fill="#a1a1aa">
+    Every quant metric. Every forecast. An AI advisor that reads your portfolio.
+  </text>
+
+  <!-- Decorative chart -->
+  <g transform="translate(640, 440)">
+    <rect x="0" y="0" width="480" height="150" rx="18" fill="#111113" stroke="#27272a" />
+    <path d="M20 110 C80 100 120 80 180 75 C240 70 280 90 340 60 C400 30 440 40 460 20 L460 130 L20 130 Z" fill="url(#chart)" />
+    <path d="M20 110 C80 100 120 80 180 75 C240 70 280 90 340 60 C400 30 440 40 460 20" stroke="url(#gradient-text)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="460" cy="20" r="5" fill="#fbbf24" />
+    <text x="20" y="30" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600" fill="#a1a1aa" letter-spacing="1">PORTFOLIO PERFORMANCE</text>
+  </g>
+
+  <!-- Live pulse -->
+  <g transform="translate(1050, 80)">
+    <rect x="0" y="0" width="70" height="30" rx="15" fill="#111113" stroke="#27272a" />
+    <circle cx="16" cy="15" r="4" fill="#10b981">
+      <animate attributeName="opacity" values="1;0.3;1" dur="1.6s" repeatCount="indefinite" />
+    </circle>
+    <text x="28" y="20" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500" fill="#a1a1aa">Live</text>
+  </g>
+</svg>

@@ -1,0 +1,49 @@
+{
+  "name": "bullfin-ai",
+  "version": "0.1.0",
+  "private": true,
+  "description": "BullFin-AI — AI-powered portfolio analytics platform (web + api + ml-engine monorepo)",
+  "license": "MIT",
+  "author": "Darshan Patil <patil.da@northeastern.edu>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darshanpatil2511/BullFin-AI.git"
+  },
+  "homepage": "https://github.com/darshanpatil2511/BullFin-AI#readme",
+  "bugs": {
+    "url": "https://github.com/darshanpatil2511/BullFin-AI/issues"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter \"./apps/*\" dev",
+    "dev:web": "pnpm --filter @bullfin/web dev",
+    "dev:api": "pnpm --filter @bullfin/api dev",
+    "dev:ml": "cd apps/ml && uvicorn app.main:app --reload --port 5000",
+    "build": "pnpm --filter \"./apps/*\" --filter \"./packages/*\" build",
+    "build:web": "pnpm --filter @bullfin/web build",
+    "build:api": "pnpm --filter @bullfin/api build",
+    "lint": "pnpm --filter \"./apps/*\" --filter \"./packages/*\" lint",
+    "typecheck": "pnpm --filter \"./apps/*\" --filter \"./packages/*\" typecheck",
+    "test": "pnpm --filter \"./apps/*\" --filter \"./packages/*\" test",
+    "clean": "pnpm -r exec rm -rf dist build node_modules .turbo",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,css}\" --ignore-path .gitignore"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.2"
+  },
+  "prettier": {
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "printWidth": 100,
+    "tabWidth": 2,
+    "arrowParens": "always"
+  }
+}

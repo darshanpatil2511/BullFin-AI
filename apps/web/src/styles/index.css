@@ -1,0 +1,211 @@
+@import 'tailwindcss';
+@plugin 'tailwindcss-animate';
+
+/* ==========================================================================
+   BullFin-AI design tokens
+   --------------------------------------------------------------------------
+   Dark mode is the default — it is the canonical "financial platform" look.
+   A `.light` root toggle flips to the day theme.
+   Palette: deep slate neutrals, emerald primary (growth), amber accent.
+   ========================================================================== */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Typography */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Brand */
+  --color-brand-50: #ecfdf5;
+  --color-brand-100: #d1fae5;
+  --color-brand-200: #a7f3d0;
+  --color-brand-300: #6ee7b7;
+  --color-brand-400: #34d399;
+  --color-brand-500: #10b981;
+  --color-brand-600: #059669;
+  --color-brand-700: #047857;
+  --color-brand-800: #065f46;
+  --color-brand-900: #064e3b;
+  --color-brand-950: #022c22;
+
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+
+  /* Semantic — dark theme defaults */
+  --color-bg: #09090b;
+  --color-bg-elevated: #111113;
+  --color-bg-muted: #18181b;
+  --color-bg-raised: #1c1c21;
+  --color-surface: #17171a;
+  --color-border: #27272a;
+  --color-border-strong: #3f3f46;
+  --color-fg: #f4f4f5;
+  --color-fg-muted: #a1a1aa;
+  --color-fg-subtle: #71717a;
+  --color-ring: var(--color-brand-500);
+  --color-success: var(--color-brand-500);
+  --color-warning: var(--color-accent-500);
+  --color-danger: #f43f5e;
+
+  /* Radius */
+  --radius: 0.75rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Shadows tuned for dark UI */
+  --shadow-card: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --shadow-elevated: 0 1px 0 0 rgba(255, 255, 255, 0.04) inset,
+    0 12px 40px -12px rgba(0, 0, 0, 0.7);
+  --shadow-glow: 0 0 0 1px rgba(16, 185, 129, 0.25), 0 12px 40px -8px rgba(16, 185, 129, 0.25);
+
+  /* Motion */
+  --ease-swift: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, #10b981 0%, #059669 45%, #064e3b 100%);
+  --gradient-aurora: radial-gradient(60% 60% at 50% 0%, rgba(16, 185, 129, 0.25) 0%, rgba(2, 44, 34, 0) 100%);
+}
+
+/* Light theme overrides */
+.light {
+  --color-bg: #fafafa;
+  --color-bg-elevated: #ffffff;
+  --color-bg-muted: #f4f4f5;
+  --color-bg-raised: #ffffff;
+  --color-surface: #ffffff;
+  --color-border: #e4e4e7;
+  --color-border-strong: #d4d4d8;
+  --color-fg: #0f172a;
+  --color-fg-muted: #475569;
+  --color-fg-subtle: #64748b;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px -12px rgba(15, 23, 42, 0.12);
+  --shadow-elevated: 0 1px 2px rgba(15, 23, 42, 0.04), 0 16px 40px -16px rgba(15, 23, 42, 0.2);
+}
+
+/* Base layer ---------------------------------------------------------- */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background: var(--color-bg);
+    color: var(--color-fg);
+    color-scheme: dark;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  html.light { color-scheme: light; }
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    min-height: 100vh;
+  }
+
+  * { border-color: var(--color-border); }
+
+  /* Numeric tabular styling for financial data */
+  .tabular-nums, td, [data-numeric='true'] {
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1, h2, h3, h4 {
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: rgba(16, 185, 129, 0.35);
+    color: inherit;
+  }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+    border: 2px solid var(--color-bg);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: var(--color-border-strong); }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-500);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+/* Utilities ---------------------------------------------------------- */
+@layer utilities {
+  .bg-aurora {
+    background-image: var(--gradient-aurora);
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .text-gradient {
+    background: linear-gradient(135deg, #6ee7b7 0%, #10b981 55%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .glass {
+    background: color-mix(in oklab, var(--color-bg-elevated) 80%, transparent);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+  }
+  .divide-hair > * + * {
+    border-top: 1px solid var(--color-border);
+  }
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-elevated { box-shadow: var(--shadow-elevated); }
+  .shadow-glow { box-shadow: var(--shadow-glow); }
+}
+
+/* Small animated primitives */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-muted) 0%,
+    var(--color-bg-raised) 50%,
+    var(--color-bg-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* Landing page decorative orbs — GPU-only transforms, no layout cost. */
+@keyframes landing-orb-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(40px, 28px, 0) scale(1.05); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes landing-orb-drift-alt {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-36px, 24px, 0) scale(0.95); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+.landing-orb,
+.landing-orb-alt {
+  filter: blur(64px);
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+.landing-orb { animation: landing-orb-drift 22s ease-in-out infinite; }
+.landing-orb-alt { animation: landing-orb-drift-alt 26s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-orb,
+  .landing-orb-alt {
+    animation: none;
+  }
+}

@@ -1,0 +1,71 @@
+# docker-compose.yml — local one-command dev stack.
+#
+# Usage:
+#   cp apps/api/.env.example apps/api/.env       # fill in real values
+#   cp apps/ml/.env.example  apps/ml/.env
+#   cp apps/web/.env.example apps/web/.env.local
+#   docker compose up --build
+#
+# Services:
+#   web   → http://localhost:5173 (nginx serving the Vite build)
+#   api   → http://localhost:4000
+#   ml    → http://localhost:5000 (FastAPI + /docs)
+#   redis → redis://localhost:6379 (used by ML for price caching in prod)
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: bullfin-api
+    env_file:
+      - apps/api/.env
+    environment:
+      - NODE_ENV=production
+      - ML_ENGINE_URL=http://ml:5000
+      - CLIENT_ORIGIN=http://localhost:5173
+    ports:
+      - '4000:4000'
+    depends_on:
+      ml:
+        condition: service_healthy
+    restart: unless-stopped
+
+  ml:
+    build:
+      context: apps/ml
+    container_name: bullfin-ml
+    env_file:
+      - apps/ml/.env
+    environment:
+      - ENV=production
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - '5000:5000'
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        # These are baked in at build time — set them in .env or the compose env.
+        - VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+        - VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
+        - VITE_API_URL=http://localhost:4000
+    container_name: bullfin-web
+    ports:
+      - '5173:80'
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: bullfin-redis
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    ports:
+      - '6379:6379'
+    restart: unless-stopped
