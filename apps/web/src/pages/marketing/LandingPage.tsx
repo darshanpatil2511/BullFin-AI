@@ -452,7 +452,11 @@ function MetricsStripe() {
           <Reveal key={m.label} delay={i * 0.08}>
             <p className="text-3xl font-semibold text-gradient tabular-nums">
               {'numeric' in m ? (
-                <AnimatedCounter value={m.numeric} suffix={m.suffix ?? ''} duration={1.8} />
+                <AnimatedCounter
+                  value={m.numeric}
+                  suffix={'suffix' in m ? m.suffix : ''}
+                  duration={1.8}
+                />
               ) : (
                 m.text
               )}
