@@ -60,6 +60,14 @@ export function buildApp(): Express {
 
   app.use(globalLimiter);
 
+  // Root-level health alias so orchestrators that probe the conventional
+  // `/health` path (e.g. Render's continuous liveness probe) get a 200
+  // without 404-spamming the logs. The canonical endpoint is still
+  // `/api/health`, mounted below.
+  app.get('/health', (_req, res) => {
+    res.json({ ok: true, service: 'bullfin-api', status: 'alive' });
+  });
+
   app.use('/api', buildApiRouter());
 
   app.use(notFound);
