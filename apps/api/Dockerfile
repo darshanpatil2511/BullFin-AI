@@ -22,7 +22,12 @@ FROM deps AS build
 COPY tsconfig.base.json ./
 COPY packages/shared packages/shared
 COPY apps/api apps/api
-RUN pnpm --filter @bullfin/api build
+# Build shared first — its compiled dist/ is what the API's tsconfig.build
+# resolves @bullfin/shared against. Without this step tsc either pulls shared's
+# .ts source into the program (TS6059 rootDir error) or fails to resolve the
+# types at all.
+RUN pnpm --filter @bullfin/shared build \
+ && pnpm --filter @bullfin/api build
 
 # ---- Stage 3: prod deps only ----
 FROM base AS prod-deps

@@ -4,7 +4,18 @@
     "noEmit": false,
     "declaration": false,
     "declarationMap": false,
-    "sourceMap": true
+    "sourceMap": true,
+    // At build time, resolve @bullfin/shared to its compiled declaration
+    // files — NOT the raw .ts sources. Pointing tsc at .d.ts lets it treat
+    // shared as a pre-compiled dependency, which sidesteps the "file is not
+    // under rootDir" (TS6059) error we'd otherwise hit because shared's src
+    // lives outside apps/api/src. The shared package must be built first
+    // (see apps/api/Dockerfile).
+    "paths": {
+      "@/*": ["./src/*"],
+      "@bullfin/shared": ["../../packages/shared/dist/index.d.ts"],
+      "@bullfin/shared/*": ["../../packages/shared/dist/*"]
+    }
   },
   "exclude": ["node_modules", "dist", "**/*.test.ts", "src/test/**"]
 }
