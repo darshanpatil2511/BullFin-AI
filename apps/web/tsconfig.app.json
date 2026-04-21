@@ -18,8 +18,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@bullfin/shared": ["../../packages/shared/src/index.ts"],
-      "@bullfin/shared/*": ["../../packages/shared/src/*"]
+      "@bullfin/shared": ["../../packages/shared/dist/index.d.ts"],
+      "@bullfin/shared/*": ["../../packages/shared/dist/*"]
     }
   },
   "include": ["src"]
