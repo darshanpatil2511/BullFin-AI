@@ -41,12 +41,15 @@ ENV PORT=4000
 RUN addgroup -S bullfin && adduser -S bullfin -G bullfin
 USER bullfin
 
+# @bullfin/shared is a type-only dep — every import from it in apps/api uses
+# `import type`, which TypeScript erases at compile time. The built dist has
+# no runtime reference, so we skip shipping its source / node_modules entirely
+# (saves ~60MB and avoids the "shared has no deps, so no node_modules folder
+# exists to copy" build failure).
 COPY --chown=bullfin:bullfin --from=prod-deps /app/node_modules ./node_modules
 COPY --chown=bullfin:bullfin --from=prod-deps /app/apps/api/node_modules ./apps/api/node_modules
-COPY --chown=bullfin:bullfin --from=prod-deps /app/packages/shared/node_modules ./packages/shared/node_modules
 COPY --chown=bullfin:bullfin --from=build /app/apps/api/dist ./apps/api/dist
 COPY --chown=bullfin:bullfin --from=build /app/apps/api/package.json ./apps/api/package.json
-COPY --chown=bullfin:bullfin --from=build /app/packages/shared ./packages/shared
 
 EXPOSE 4000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
