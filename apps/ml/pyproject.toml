@@ -25,6 +25,13 @@ dependencies = [
   "httpx>=0.27.2",
   "python-dotenv>=1.0.1",
   "structlog>=24.4.0",
+
+  # Explicit pin because `PyPortfolioOpt` -> `skbase` transitively imports
+  # `packaging.markers` but doesn't declare it as a hard dep. On slim Python
+  # base images (where pip's vendored copy is not exposed) the top-level
+  # `packaging` package isn't installed automatically, producing a
+  # ModuleNotFoundError at startup. Explicit pin avoids that.
+  "packaging>=23.0",
 ]
 
 [project.optional-dependencies]
