@@ -18,10 +18,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
+# Copy the package source BEFORE `pip install -e .` — the editable install
+# resolves the `app` package via setuptools at install time, so the directory
+# must exist. (Copying app/ after the install caused Render builds to fail
+# with "error: package directory 'app' does not exist".)
 COPY pyproject.toml ./
-RUN pip install --upgrade pip && pip install -e .
-
 COPY app ./app
+RUN pip install --upgrade pip && pip install -e .
 
 RUN addgroup --system bullfin && adduser --system --ingroup bullfin bullfin && \
     chown -R bullfin:bullfin /app
